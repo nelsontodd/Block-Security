@@ -1,0 +1,155 @@
+<html>
+  <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+
+  <style>
+
+  body {
+    background-color: #333333;
+    font-family: 'Righteous', sans-serif;
+    height: 100%;
+  }
+
+  h1 {
+    font-family: 'Righteous', sans-serif;
+    text-align: center;
+    color: #d04951;
+    /* text-decoration: underline;*/
+  }
+
+
+  .wrapper {
+    width: 75%;
+    margin: auto;
+    color: white;
+  }
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 16px 14px;
+    overflow: hidden;
+    background-color: #d04951;
+  }
+
+  li {
+    display: inline-block;
+  }
+
+  li a {
+    color: white;
+    padding: 16px 14px;
+    text-decoration: none;
+  }
+
+  a:hover {
+    background-color: #a4232a;
+  }
+
+
+  .code-format {
+    word-wrap: break-word;
+    margin-left: 0px;
+  }
+
+
+
+
+  </style>
+  <head>
+    <title>BlockSecurity</title>
+
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+    var lastData = '';
+    function notifyMe(data) {
+      if (!("Notification" in window)) {
+        alert("This browser does not support desktop notification");
+      }
+      else if (Notification.permission === "granted") {
+            var options = {
+                    body: data,
+                    icon: "icon.jpg",
+                    dir : "ltr"
+                 };
+              var notification = new Notification("Intrusion Detected",options);
+      }
+      else if (Notification.permission !== 'denied') {
+        Notification.requestPermission(function (permission) {
+          if (!('permission' in Notification)) {
+            Notification.permission = permission;
+          }
+
+          if (permission === "granted") {
+            var options = {
+                  body: data,
+                  icon: "icon.jpg",
+                  dir : "ltr"
+              };
+            var notification = new Notification("Intrusion Detected",options);
+          }
+        });
+      }
+    }
+
+
+      var socket = io('http://localhost');
+      socket.on('news', function (data) {
+        console.log('data = '+ data);
+        if (lastData != data) {
+          notifyMe(data);
+          lastData = data;
+          console.log('ID: '+lastData);
+          $('#update-block').html(data);
+
+        }
+        //socket.emit('my other event', { my: 'data' });
+      });
+    </script>
+  </head>
+
+  <body>
+
+    <div class="wrapper">
+      <h1>Block Security</h1>
+      <ul>
+        <li><a href="index.html">Report</a><li>
+      </ul>
+      <div class="row">
+        <div class="col-xs-6">
+
+          <div class="code-format">
+            <h3>Notification Code</h3>
+              <div class="code-block">
+                <pre>
+ var socket = io('http://localhost');
+ socket.on('news', function (data) {
+ console.log('data = '+ data);
+ if (lastData != data) {
+    notifyMe(data);
+    lastData = data;
+    console.log(lastData);
+  }
+            </pre>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-6">
+
+
+      <div class="code-format">
+        <h3>Notifications</h3>
+        <div class="code-block">
+            <pre id="update-block">
+            </pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    </div>
+  </body>
+<html>

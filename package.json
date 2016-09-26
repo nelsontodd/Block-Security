@@ -1,0 +1,21 @@
+{
+  "name": "socket-notification",
+  "version": "1.0.0",
+  "description": "Real time notification system using Socket.io and ExpressJS",
+  "main": "./Server/",
+  "scripts": {
+    "start": "node ./Server/"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.3",
+    "socket.io": "^1.3.6",
+    "mysql": "~2.9.0"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.11.3",
+    "grunt-nodemon": "^0.4.0"
+  }
+}
